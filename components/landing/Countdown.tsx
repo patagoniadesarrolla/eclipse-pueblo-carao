@@ -45,7 +45,7 @@ export default function Countdown() {
   }, [])
 
   return (
-    <section className="py-20 px-6" style={{ background: '#050508' }}>
+    <section className="py-20 px-6" style={{ background: 'var(--c-bg)' }}>
       <div ref={ref} className="max-w-3xl mx-auto text-center">
         <p className={`reveal text-xs font-bold tracking-[0.3em] uppercase mb-3 ${visible ? 'in-view' : ''}`}
           style={{ color: '#dc2626' }}>

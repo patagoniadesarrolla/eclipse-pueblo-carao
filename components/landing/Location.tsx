@@ -6,7 +6,7 @@ export default function Location({ settings }: { settings: LandingSettings }) {
   const secondary = settings.secondary_color
 
   return (
-    <section className="py-24 px-6 relative overflow-hidden" style={{ background: '#07070f' }}>
+    <section className="py-24 px-6 relative overflow-hidden" style={{ background: 'var(--c-bg-alt)' }}>
       <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true"
         style={{
           width: '500px', height: '500px',

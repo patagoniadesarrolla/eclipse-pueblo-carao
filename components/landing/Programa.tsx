@@ -80,7 +80,7 @@ export default function Programa() {
   const { ref, visible } = useScrollReveal()
 
   return (
-    <section className="py-24 px-6" style={{ background: '#07070f' }}>
+    <section className="py-24 px-6" style={{ background: 'var(--c-bg-alt)' }}>
       <div className="max-w-2xl mx-auto">
         <div ref={ref} className="text-center mb-14">
           <p className={`reveal text-xs font-bold tracking-[0.3em] uppercase mb-4 ${visible ? 'in-view' : ''}`}

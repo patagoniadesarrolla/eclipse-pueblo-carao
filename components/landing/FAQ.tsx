@@ -36,7 +36,7 @@ export default function FAQ() {
   const { ref, visible } = useScrollReveal()
 
   return (
-    <section className="py-24 px-6" style={{ background: '#050508' }}>
+    <section className="py-24 px-6" style={{ background: 'var(--c-bg)' }}>
       <div className="max-w-3xl mx-auto">
         <div ref={ref} className="text-center mb-16">
           <p className={`reveal text-xs font-bold tracking-[0.3em] uppercase mb-4 ${visible ? 'in-view' : ''}`}

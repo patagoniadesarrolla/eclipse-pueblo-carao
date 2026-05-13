@@ -14,14 +14,15 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Leads', href: '/dashboard/leads', emoji: '👥' },
-  { label: 'Landing', href: '/dashboard/landing', emoji: '🌐' },
-  { label: 'Órdenes', href: '#', emoji: '📋', disabled: true, badge: 'Próximamente' },
-  { label: 'Compradores', href: '#', emoji: '🛒', disabled: true },
-  { label: 'Estadísticas', href: '#', emoji: '📊', disabled: true },
-  { label: 'Emails', href: '#', emoji: '📧', disabled: true },
+  { label: 'Leads',         href: '/dashboard/leads',    emoji: '👥' },
+  { label: 'Pipeline',      href: '/dashboard/pipeline', emoji: '🎯' },
+  { label: 'Landing',       href: '/dashboard/landing',  emoji: '🌐' },
+  { label: 'Órdenes',       href: '/dashboard/orders',   emoji: '📋' },
+  { label: 'Compradores',   href: '/dashboard/buyers',   emoji: '🛒' },
+  { label: 'Estadísticas',  href: '#', emoji: '📊', disabled: true },
+  { label: 'Emails',        href: '#', emoji: '📧', disabled: true },
   { label: 'Notificaciones', href: '#', emoji: '🔔', disabled: true },
-  { label: 'Equipo', href: '#', emoji: '👤', disabled: true },
+  { label: 'Equipo',        href: '#', emoji: '👤', disabled: true },
 ]
 
 function NavContent({

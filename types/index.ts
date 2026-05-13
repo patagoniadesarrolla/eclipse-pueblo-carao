@@ -30,6 +30,33 @@ export interface LeadStatusHistory {
   changed_at: string
 }
 
+export type PaymentMethod = 'stripe' | 'mercadopago' | 'transferencia' | 'efectivo'
+export type PaymentStatus = 'pending' | 'paid' | 'refunded'
+
+export interface Order {
+  id: string
+  lead_id: string | null
+  buyer_name: string
+  buyer_email: string
+  amount_usd: number
+  payment_method: PaymentMethod
+  payment_status: PaymentStatus
+  stripe_session_id: string | null
+  notes: string | null
+  created_at: string
+}
+
+export interface BuyerProfile {
+  id: string
+  user_id: string | null
+  order_id: string | null
+  name: string | null
+  email: string | null
+  onboarding_completed: boolean
+  checklist_items: Record<string, unknown>
+  created_at: string
+}
+
 export interface DashboardUser {
   id: string
   user_id: string

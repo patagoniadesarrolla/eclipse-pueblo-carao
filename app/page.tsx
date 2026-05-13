@@ -1,5 +1,6 @@
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { DEFAULT_SETTINGS, DEFAULT_FEATURES } from '@/types'
+import FloatingNav from '@/components/landing/FloatingNav'
 import Hero from '@/components/landing/Hero'
 import Countdown from '@/components/landing/Countdown'
 import Programa from '@/components/landing/Programa'
@@ -32,12 +33,13 @@ export default async function LandingPage() {
 
   return (
     <main style={{ background: '#050508' }}>
-      <Hero settings={settings} />
-      <Countdown />
-      <Programa />
-      <Includes features={features} settings={settings} />
-      <Location settings={settings} />
-      <FAQ />
+      <FloatingNav />
+      <section id="hero"><Hero settings={settings} /></section>
+      <section id="countdown"><Countdown /></section>
+      <section id="programa"><Programa /></section>
+      <section id="includes"><Includes features={features} settings={settings} /></section>
+      <section id="location"><Location settings={settings} /></section>
+      <section id="faq"><FAQ /></section>
       <Footer />
     </main>
   )

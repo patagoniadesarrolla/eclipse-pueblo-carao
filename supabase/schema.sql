@@ -49,6 +49,7 @@ create policy "Dashboard users can manage leads" on leads for all using (
 );
 
 -- Los dashboard_users pueden ver a sus compañeros de equipo
-create policy "Dashboard users can read team" on dashboard_users for select using (
-  exists (select 1 from dashboard_users where user_id = auth.uid())
-);
+-- Política simple: cualquier usuario autenticado puede leer dashboard_users
+-- (evita recursión infinita al consultarse a sí misma)
+create policy "Auth users can read dashboard_users" on dashboard_users
+for select using (auth.role() = 'authenticated');

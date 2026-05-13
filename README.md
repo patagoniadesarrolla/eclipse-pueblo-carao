@@ -52,7 +52,18 @@ npm run dev
 
 Abrir [http://localhost:3000](http://localhost:3000)
 
-### 6. Deploy en Vercel
+### 6. Configurar Meta Webhook (Lead Ads)
+
+1. Ir a [Meta for Developers](https://developers.facebook.com) → tu app → **Webhooks**
+2. Suscribirse al objeto **"leadgen"**
+3. URL del webhook: `https://[tu-dominio]/api/webhooks/meta`
+4. Verify token: el valor de `META_WEBHOOK_VERIFY_TOKEN` en tu `.env.local`
+5. Seleccionar el campo **"leadgen"** para recibir notificaciones de leads nuevos
+6. Agregar `META_WEBHOOK_VERIFY_TOKEN` en Vercel → Settings → Environment Variables
+
+Los leads de Meta aparecen en el dashboard con fuente **"Meta Ads"** y se descartan duplicados automáticamente.
+
+### 7. Deploy en Vercel
 
 ```bash
 npx vercel --prod

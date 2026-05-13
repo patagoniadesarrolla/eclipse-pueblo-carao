@@ -2,6 +2,7 @@ import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { DEFAULT_SETTINGS, DEFAULT_FEATURES } from '@/types'
 import FloatingNav from '@/components/landing/FloatingNav'
 import TopBar from '@/components/landing/TopBar'
+import UTMCapture from '@/components/landing/UTMCapture'
 import Hero from '@/components/landing/Hero'
 import Countdown from '@/components/landing/Countdown'
 import Programa from '@/components/landing/Programa'
@@ -34,6 +35,7 @@ export default async function LandingPage() {
 
   return (
     <main style={{ background: '#050508' }}>
+      <UTMCapture />
       <TopBar />
       <FloatingNav />
       <section id="hero"><Hero settings={settings} /></section>

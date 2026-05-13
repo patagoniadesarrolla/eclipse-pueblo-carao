@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { readStoredUTMs } from './UTMCapture'
 
 interface Props {
   isOpen: boolean
@@ -35,7 +36,7 @@ export default function ReservationModal({ isOpen, onClose }: Props) {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source: 'landing' }),
+        body: JSON.stringify({ ...form, source: 'landing', ...readStoredUTMs() }),
       })
 
       if (!res.ok) throw new Error('Error en el servidor')

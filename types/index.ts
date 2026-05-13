@@ -1,6 +1,6 @@
 export type LeadStatus = 'new' | 'contacted' | 'quoted' | 'sold' | 'lost'
 
-export type LeadSource = 'landing' | 'instagram' | 'referral' | 'whatsapp' | 'manual'
+export type LeadSource = 'landing' | 'instagram' | 'referral' | 'whatsapp' | 'manual' | 'meta_lead_ad'
 
 export type UserRole = 'admin' | 'agent'
 
@@ -13,8 +13,21 @@ export interface Lead {
   status: LeadStatus
   assigned_to: string | null
   notes: string | null
+  utm_source: string | null
+  utm_medium: string | null
+  utm_campaign: string | null
+  meta_leadgen_id: string | null
   created_at: string
   updated_at: string
+}
+
+export interface LeadStatusHistory {
+  id: string
+  lead_id: string
+  from_status: string | null
+  to_status: string
+  changed_by: string | null
+  changed_at: string
 }
 
 export interface DashboardUser {

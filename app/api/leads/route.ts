@@ -16,7 +16,10 @@ const supabaseAdmin = createClient(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, email, phone, source = 'landing' } = body
+    const {
+      name, email, phone, source = 'landing',
+      utm_source, utm_medium, utm_campaign,
+    } = body
 
     if (!name?.trim() || !email?.trim()) {
       return NextResponse.json(
@@ -26,10 +29,13 @@ export async function POST(request: NextRequest) {
     }
 
     const { error } = await supabaseAdmin.from('leads').insert({
-      name: name.trim(),
-      email: email.trim().toLowerCase(),
-      phone: phone?.trim() || null,
+      name:         name.trim(),
+      email:        email.trim().toLowerCase(),
+      phone:        phone?.trim() || null,
       source,
+      utm_source:   utm_source   || null,
+      utm_medium:   utm_medium   || null,
+      utm_campaign: utm_campaign || null,
     })
 
     if (error) throw error

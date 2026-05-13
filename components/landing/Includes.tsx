@@ -1,66 +1,144 @@
-const items = [
-  {
-    emoji: '🍷',
-    titulo: 'Picnic gourmet',
-    descripcion:
-      'Tabla de quesos y chacinados patagónicos, pan artesanal, postre de temporada y dos copas de vino de bodega local bajo las estrellas.',
-  },
-  {
-    emoji: '🔭',
-    titulo: 'Guía de astroturismo',
-    descripcion:
-      'Acompañamiento experto durante todo el eclipse: historia, ciencia y mitología del cielo patagónico en el evento más esperado del siglo.',
-  },
-  {
-    emoji: '📱',
-    titulo: 'App digital exclusiva',
-    descripcion:
-      'Realidad aumentada para identificar constelaciones, mapa interactivo del recorrido del eclipse y galería de fotos del evento en tiempo real.',
-  },
-  {
-    emoji: '📜',
-    titulo: 'Certificado de experiencia',
-    descripcion:
-      'Documento oficial impreso y digital que acredita tu presencia en uno de los eventos astronómicos más extraordinarios de los últimos 180 años en la región.',
-  },
-]
+'use client'
 
-export default function Includes() {
+import { useState, useRef } from 'react'
+import { LandingFeature, LandingSettings } from '@/types'
+import { hexToRgba } from '@/lib/colors'
+
+interface Props {
+  features: LandingFeature[]
+  settings: LandingSettings
+}
+
+export default function Includes({ features, settings }: Props) {
+  const [active, setActive] = useState(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const { primary_color: primary, secondary_color: secondary } = settings
+
+  const scrollToCard = (index: number) => {
+    setActive(index)
+    const container = scrollRef.current
+    if (!container) return
+    const card = container.children[index] as HTMLElement
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    }
+  }
+
   return (
-    <section className="py-24 px-6" style={{ background: '#07070f' }}>
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16">
-          <p
-            className="text-xs font-semibold tracking-widest uppercase mb-5"
-            style={{ color: '#d97706', letterSpacing: '0.25em' }}
-          >
-            La experiencia
-          </p>
-          <h2 className="text-3xl md:text-5xl font-bold text-white">
-            ¿Qué incluye?
-          </h2>
-        </div>
+    <section className="py-24 overflow-hidden" style={{ background: '#07070f' }}>
+      <div className="text-center mb-14 px-6">
+        <p
+          className="text-xs font-semibold tracking-widest uppercase mb-5"
+          style={{ color: secondary, letterSpacing: '0.25em' }}
+        >
+          La experiencia
+        </p>
+        <h2 className="text-3xl md:text-5xl font-bold text-white">¿Qué incluye?</h2>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {items.map((item) => (
+      {/* Carrusel */}
+      <div
+        ref={scrollRef}
+        className="flex overflow-x-auto gap-5 pb-6"
+        style={{
+          scrollSnapType: 'x mandatory',
+          scrollBehavior: 'smooth',
+          WebkitOverflowScrolling: 'touch',
+          paddingLeft: 'max(24px, calc(50vw - 200px))',
+          paddingRight: 'max(24px, calc(50vw - 200px))',
+          msOverflowStyle: 'none',
+          scrollbarWidth: 'none',
+        }}
+      >
+        {features.map((feature, index) => {
+          const isActive = active === index
+          return (
             <div
-              key={item.titulo}
-              className="p-8 rounded-2xl transition-all duration-300 hover:scale-[1.01]"
+              key={feature.id}
+              onClick={() => scrollToCard(index)}
+              className="flex-shrink-0 rounded-2xl p-8 cursor-pointer transition-all duration-400 relative overflow-hidden"
               style={{
-                background: 'rgba(255,255,255,0.025)',
-                border: '1px solid rgba(255,255,255,0.07)',
+                width: '300px',
+                scrollSnapAlign: 'center',
+                background: isActive
+                  ? `linear-gradient(145deg, ${hexToRgba(primary, 0.22)}, ${hexToRgba(secondary, 0.1)})`
+                  : 'rgba(255,255,255,0.025)',
+                border: `1px solid ${isActive ? hexToRgba(primary, 0.45) : 'rgba(255,255,255,0.07)'}`,
+                transform: isActive ? 'scale(1.03)' : 'scale(0.95)',
+                transition: 'all 0.35s ease',
               }}
             >
-              <div className="text-4xl mb-5">{item.emoji}</div>
-              <h3 className="text-xl font-semibold text-white mb-3">
-                {item.titulo}
-              </h3>
-              <p className="leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                {item.descripcion}
-              </p>
+              {/* Overlay gradient superior */}
+              <div
+                className="absolute inset-x-0 top-0 h-24 pointer-events-none"
+                style={{
+                  background: `linear-gradient(to bottom, ${hexToRgba(primary, isActive ? 0.15 : 0.04)}, transparent)`,
+                }}
+              />
+
+              <div className="relative z-10">
+                <div className="text-5xl mb-5">{feature.emoji}</div>
+                <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
+                <p className="leading-relaxed text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  {feature.description}
+                </p>
+              </div>
+
+              {/* Número de tarjeta */}
+              <div
+                className="absolute bottom-4 right-5 text-xs font-bold"
+                style={{ color: hexToRgba(primary, isActive ? 0.7 : 0.2) }}
+              >
+                0{index + 1}
+              </div>
             </div>
-          ))}
-        </div>
+          )
+        })}
+      </div>
+
+      {/* Dots de navegación */}
+      <div className="flex justify-center items-center gap-2 mt-6">
+        {features.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => scrollToCard(index)}
+            className="rounded-full transition-all duration-300"
+            style={{
+              width: active === index ? '28px' : '8px',
+              height: '8px',
+              background: active === index ? primary : 'rgba(255,255,255,0.2)',
+            }}
+            aria-label={`Feature ${index + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Flechas de navegación */}
+      <div className="flex justify-center gap-3 mt-5">
+        <button
+          onClick={() => scrollToCard(Math.max(0, active - 1))}
+          disabled={active === 0}
+          className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-20"
+          style={{
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: '#fff',
+          }}
+        >
+          ←
+        </button>
+        <button
+          onClick={() => scrollToCard(Math.min(features.length - 1, active + 1))}
+          disabled={active === features.length - 1}
+          className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-20"
+          style={{
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: '#fff',
+          }}
+        >
+          →
+        </button>
       </div>
     </section>
   )

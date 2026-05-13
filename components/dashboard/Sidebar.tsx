@@ -15,6 +15,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'Leads', href: '/dashboard/leads', emoji: '👥' },
+  { label: 'Landing', href: '/dashboard/landing', emoji: '🌐' },
   { label: 'Órdenes', href: '#', emoji: '📋', disabled: true, badge: 'Próximamente' },
   { label: 'Compradores', href: '#', emoji: '🛒', disabled: true },
   { label: 'Estadísticas', href: '#', emoji: '📊', disabled: true },

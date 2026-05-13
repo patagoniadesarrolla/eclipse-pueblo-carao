@@ -1,10 +1,7 @@
-import { redirect } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import Sidebar from '@/components/dashboard/Sidebar'
 
-export const metadata = {
-  title: 'Panel · Eclipse Pueblo Carao',
-}
+export const metadata = { title: 'Panel · Eclipse Pueblo Carao' }
 
 export default async function DashboardLayout({
   children,
@@ -12,12 +9,13 @@ export default async function DashboardLayout({
   children: React.ReactNode
 }) {
   const supabase = createServerSupabaseClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  // El middleware ya redirige, esto es una segunda capa de seguridad
-  if (!user) redirect('/dashboard/login')
+  // Sin usuario: renderizar solo los children (login page) sin sidebar
+  // El middleware ya se encarga de proteger las rutas
+  if (!user) {
+    return <>{children}</>
+  }
 
   return (
     <div className="flex h-screen bg-gray-950 overflow-hidden">

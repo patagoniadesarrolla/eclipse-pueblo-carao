@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { resend, FROM_ADDRESS } from '@/lib/resend'
+import { bienvenidaEmail } from '@/lib/emails/bienvenida'
 import Stripe from 'stripe'
 
 export const runtime = 'nodejs'
+
+function generateTempPassword(): string {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
+  return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
@@ -57,9 +64,11 @@ export async function POST(req: NextRequest) {
       .select()
       .single()
 
-    // 4. Crear usuario en Supabase Auth
+    // 4. Crear usuario en Supabase Auth con password temporal
+    const tempPassword = generateTempPassword()
     const { data: authData } = await supabaseAdmin.auth.admin.createUser({
       email: buyerEmail,
+      password: tempPassword,
       email_confirm: true,
       user_metadata: { name: buyerName },
     })
@@ -73,6 +82,33 @@ export async function POST(req: NextRequest) {
         email: buyerEmail,
       })
     }
+
+    // 6. Enviar email de bienvenida
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eclipsepuebloca rao.com'
+    const { subject, html } = bienvenidaEmail({
+      nombre: buyerName,
+      email: buyerEmail,
+      password_temporal: tempPassword,
+      fecha_evento: '6 de febrero de 2027',
+      url_app: `${appUrl}/mi-experiencia`,
+    })
+
+    const { data: emailData } = await resend.emails.send({
+      from: FROM_ADDRESS,
+      to: buyerEmail,
+      subject,
+      html,
+    })
+
+    // 7. Guardar en email_logs
+    await supabaseAdmin.from('email_logs').insert({
+      template_key: 'bienvenida',
+      recipient_email: buyerEmail,
+      recipient_name: buyerName,
+      subject,
+      status: 'sent',
+      resend_id: emailData?.id ?? null,
+    })
   }
 
   return NextResponse.json({ received: true })

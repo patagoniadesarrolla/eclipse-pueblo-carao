@@ -5,6 +5,7 @@ import TopBar from '@/components/landing/TopBar'
 import UTMCapture from '@/components/landing/UTMCapture'
 import Hero from '@/components/landing/Hero'
 import Countdown from '@/components/landing/Countdown'
+import Mito from '@/components/landing/Mito'
 import Programa from '@/components/landing/Programa'
 import Includes from '@/components/landing/Includes'
 import Location from '@/components/landing/Location'
@@ -40,6 +41,7 @@ export default async function LandingPage() {
       <FloatingNav />
       <section id="hero"><Hero settings={settings} /></section>
       <section id="countdown"><Countdown /></section>
+      <Mito />
       <section id="programa"><Programa /></section>
       <section id="includes"><Includes features={features} settings={settings} /></section>
       <section id="location"><Location settings={settings} /></section>

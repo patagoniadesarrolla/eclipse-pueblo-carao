@@ -64,8 +64,8 @@ export interface LandingFeature {
 
 export const DEFAULT_SETTINGS: LandingSettings = {
   id: '',
-  hero_title: 'Eclipse en Pueblo Carao · 2027',
-  hero_tagline: 'Una noche que el universo preparó millones de años',
+  hero_title: 'El Eclipse del Dragón',
+  hero_tagline: 'El 6 de febrero de 2027, la Cabeza del Dragón estará sobre Esquel. Solo Pueblo Carao tiene un dragón de hierro esperando este momento.',
   hero_price: '$300 USD',
   hero_bg_type: 'color',
   hero_bg_url: null,
@@ -75,8 +75,12 @@ export const DEFAULT_SETTINGS: LandingSettings = {
 }
 
 export const DEFAULT_FEATURES: LandingFeature[] = [
-  { id: '1', emoji: '🍷', title: 'Picnic gourmet', description: 'Selección de quesos, chacinados patagónicos, pan artesanal y vinos de bodega local bajo las estrellas.', sort_order: 0, created_at: '' },
-  { id: '2', emoji: '🔭', title: 'Guía de astroturismo', description: 'Acompañamiento experto durante el eclipse: historia, ciencia y mitología del cielo patagónico.', sort_order: 1, created_at: '' },
-  { id: '3', emoji: '📱', title: 'App digital exclusiva', description: 'Realidad aumentada para identificar constelaciones y mapa interactivo del eclipse en tiempo real.', sort_order: 2, created_at: '' },
-  { id: '4', emoji: '📜', title: 'Certificado de experiencia', description: 'Documento oficial que acredita tu presencia en uno de los eventos astronómicos más raros del siglo.', sort_order: 3, created_at: '' },
+  { id: '1', emoji: '✉️', title: 'Preparación mensual', description: 'Cuatro entregas de contenido antes del evento: el mito del dragón celeste, la física del eclipse anular, la historia de Carao y las instrucciones para el día. Llegás sabiendo qué va a pasar y por qué importa.', sort_order: 0, created_at: '' },
+  { id: '2', emoji: '🎁', title: 'Kit del asistente', description: 'Al llegar recibís el mapa del evento, el mito impreso, los tiempos exactos del eclipse, y un espacio en blanco para escribir lo que viste. Algo para guardar.', sort_order: 1, created_at: '' },
+  { id: '3', emoji: '🍳', title: 'Desayuno · Galletas Eclipse', description: 'Mesa buffet antes del anillo. Incluye las Galletas Eclipse de edición limitada, elaboradas especialmente para este evento.', sort_order: 2, created_at: '' },
+  { id: '4', emoji: '🎤', title: 'Presentación de 20 minutos', description: 'Antes de la cobertura parcial, una presentación que activa el relato: no es una clase de astronomía, es parte de la narrativa del evento.', sort_order: 3, created_at: '' },
+  { id: '5', emoji: '🌑', title: 'Los 7 minutos del anillo', description: 'El silencio acordado. La sombra del dragón de hierro iluminada desde el cielo. El cambio de luz, el frío repentino, el comportamiento de los animales. Todo anticipado, todo cargado de sentido.', sort_order: 4, created_at: '' },
+  { id: '6', emoji: '🎉', title: 'Sol Fest · Celebración', description: 'Después del anillo, la fiesta abre: música en vivo, gastronomía en restaurante, fotografía, arte y yoga. El evento no termina con el eclipse.', sort_order: 5, created_at: '' },
+  { id: '7', emoji: '📬', title: 'Pieza de cierre', description: '48 horas después recibís un texto que devuelve la experiencia con las palabras que no tuviste en el momento. No es un agradecimiento.', sort_order: 6, created_at: '' },
+  { id: '8', emoji: '📷', title: 'Archivo de memoria', description: 'Selección fotográfica digital con criterio narrativo. No es contenido de redes: es el racconto de lo que viviste.', sort_order: 7, created_at: '' },
 ]

@@ -92,7 +92,7 @@ export default function Hero({ settings }: Props) {
         {/* Frase del dragón */}
         <p className="hero-enter-d3 text-sm md:text-base font-bold tracking-widest uppercase mb-10"
           style={{ color: '#dc2626' }}>
-          Cuando el sol se apague, el dragón despertará
+          El dragón celeste devora el sol · 6 de febrero de 2027
         </p>
 
         <div className="hero-enter-d4 flex flex-col items-center gap-5">

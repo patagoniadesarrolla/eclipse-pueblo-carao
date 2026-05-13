@@ -1,6 +1,6 @@
 # Eclipse en Pueblo Carao 2027
 
-Plataforma de astroturismo premium para el eclipse total del 22 de julio de 2027 en Patagonia Argentina.
+Plataforma de astroturismo premium para el eclipse anular del 6 de febrero de 2027 en Esquel, Patagonia Argentina.
 
 ## Stack
 

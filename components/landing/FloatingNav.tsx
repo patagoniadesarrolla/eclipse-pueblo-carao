@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTheme } from '@/lib/ThemeContext'
 
 const SECTIONS = [
   { id: 'hero',      label: 'Inicio'           },
@@ -16,7 +15,6 @@ export default function FloatingNav() {
   const [active, setActive]   = useState('hero')
   const [hovered, setHovered] = useState<string | null>(null)
   const [visible, setVisible] = useState(false)
-  const { theme, toggle }     = useTheme()
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 120)
@@ -41,8 +39,6 @@ export default function FloatingNav() {
 
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-
-  const isLight = theme === 'light'
 
   return (
     <div
@@ -143,42 +139,6 @@ export default function FloatingNav() {
           </div>
         )
       })}
-
-      {/* Separador */}
-      <div style={{ width: '1px', height: '12px', background: 'var(--c-border)', margin: '4px 0' }} />
-
-      {/* Toggle tema */}
-      <button
-        onClick={toggle}
-        title={isLight ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
-        style={{
-          width: '28px',
-          height: '28px',
-          borderRadius: '50%',
-          border: '1.5px solid var(--c-nav-bd)',
-          background: 'var(--c-card)',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '13px',
-          transition: 'all 0.25s ease',
-          position: 'relative',
-          zIndex: 2,
-          padding: 0,
-          marginTop: '2px',
-        }}
-        onMouseEnter={e => {
-          (e.currentTarget as HTMLButtonElement).style.background = 'rgba(124,58,237,0.2)'
-          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(124,58,237,0.6)'
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLButtonElement).style.background = 'var(--c-card)'
-          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--c-nav-bd)'
-        }}
-      >
-        {isLight ? '🌑' : '☀️'}
-      </button>
 
       <style>{`
         @keyframes navPulse {

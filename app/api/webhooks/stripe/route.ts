@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { resend, FROM_ADDRESS } from '@/lib/resend'
+import { getResend, FROM_ADDRESS } from '@/lib/resend'
 import { bienvenidaEmail } from '@/lib/emails/bienvenida'
 import Stripe from 'stripe'
 
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
   let event: Stripe.Event
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
+    event = getStripe().webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
   } catch {
     return NextResponse.json({ error: 'Webhook signature invalid' }, { status: 400 })
   }
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
       url_app: `${appUrl}/mi-experiencia`,
     })
 
-    const { data: emailData } = await resend.emails.send({
+    const { data: emailData } = await getResend().emails.send({
       from: FROM_ADDRESS,
       to: buyerEmail,
       subject,

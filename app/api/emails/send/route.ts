@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { resend, FROM_ADDRESS } from '@/lib/resend'
+import { getResend, FROM_ADDRESS } from '@/lib/resend'
 import { renderTemplate } from '@/lib/emails'
 
 export const runtime = 'nodejs'
@@ -24,7 +24,7 @@ async function sendOne(
   const subject = custom_subject ?? result.subject
 
   try {
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await getResend().emails.send({
       from: FROM_ADDRESS,
       to: email,
       subject,

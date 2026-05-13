@@ -19,7 +19,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Landing',       href: '/dashboard/landing',  emoji: '🌐' },
   { label: 'Órdenes',       href: '/dashboard/orders',   emoji: '📋' },
   { label: 'Compradores',   href: '/dashboard/buyers',   emoji: '🛒' },
-  { label: 'Estadísticas',  href: '#', emoji: '📊', disabled: true },
+  { label: 'Estadísticas',  href: '/dashboard/stats',    emoji: '📊' },
   { label: 'Emails',        href: '#', emoji: '📧', disabled: true },
   { label: 'Notificaciones', href: '#', emoji: '🔔', disabled: true },
   { label: 'Equipo',        href: '#', emoji: '👤', disabled: true },

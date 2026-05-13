@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import { LandingFeature, LandingSettings } from '@/types'
 import { hexToRgba } from '@/lib/colors'
+import { useScrollReveal } from '@/lib/useScrollReveal'
 
 interface Props {
   features: LandingFeature[]
@@ -13,27 +14,26 @@ export default function Includes({ features, settings }: Props) {
   const [active, setActive] = useState(0)
   const scrollRef = useRef<HTMLDivElement>(null)
   const { primary_color: primary, secondary_color: secondary } = settings
+  const { ref, visible } = useScrollReveal()
 
   const scrollToCard = (index: number) => {
     setActive(index)
     const container = scrollRef.current
     if (!container) return
     const card = container.children[index] as HTMLElement
-    if (card) {
-      card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-    }
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
   }
 
   return (
-    <section className="py-24 overflow-hidden" style={{ background: '#07070f' }}>
-      <div className="text-center mb-14 px-6">
-        <p
-          className="text-xs font-semibold tracking-widest uppercase mb-5"
-          style={{ color: secondary, letterSpacing: '0.25em' }}
-        >
+    <section className="py-24 overflow-hidden" style={{ background: '#050508' }}>
+      <div ref={ref} className="text-center mb-14 px-6">
+        <p className={`reveal text-xs font-bold tracking-[0.3em] uppercase mb-4 ${visible ? 'in-view' : ''}`}
+          style={{ color: secondary }}>
           La experiencia
         </p>
-        <h2 className="text-3xl md:text-5xl font-bold text-white">¿Qué incluye?</h2>
+        <h2 className={`reveal reveal-d1 text-3xl md:text-5xl font-bold text-white uppercase tracking-tight ${visible ? 'in-view' : ''}`}>
+          ¿Qué incluye?
+        </h2>
       </div>
 
       {/* Carrusel */}
@@ -56,7 +56,7 @@ export default function Includes({ features, settings }: Props) {
             <div
               key={feature.id}
               onClick={() => scrollToCard(index)}
-              className="flex-shrink-0 rounded-2xl p-8 cursor-pointer transition-all duration-400 relative overflow-hidden"
+              className="flex-shrink-0 rounded-2xl p-8 cursor-pointer relative overflow-hidden"
               style={{
                 width: '300px',
                 scrollSnapAlign: 'center',
@@ -68,27 +68,19 @@ export default function Includes({ features, settings }: Props) {
                 transition: 'all 0.35s ease',
               }}
             >
-              {/* Overlay gradient superior */}
-              <div
-                className="absolute inset-x-0 top-0 h-24 pointer-events-none"
-                style={{
-                  background: `linear-gradient(to bottom, ${hexToRgba(primary, isActive ? 0.15 : 0.04)}, transparent)`,
-                }}
-              />
+              <div className="absolute inset-x-0 top-0 h-24 pointer-events-none"
+                style={{ background: `linear-gradient(to bottom, ${hexToRgba(primary, isActive ? 0.15 : 0.04)}, transparent)` }} />
 
               <div className="relative z-10">
                 <div className="text-5xl mb-5">{feature.emoji}</div>
-                <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide">{feature.title}</h3>
                 <p className="leading-relaxed text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   {feature.description}
                 </p>
               </div>
 
-              {/* Número de tarjeta */}
-              <div
-                className="absolute bottom-4 right-5 text-xs font-bold"
-                style={{ color: hexToRgba(primary, isActive ? 0.7 : 0.2) }}
-              >
+              <div className="absolute bottom-4 right-5 text-xs font-bold"
+                style={{ color: hexToRgba(primary, isActive ? 0.7 : 0.2) }}>
                 0{index + 1}
               </div>
             </div>
@@ -96,7 +88,7 @@ export default function Includes({ features, settings }: Props) {
         })}
       </div>
 
-      {/* Dots de navegación */}
+      {/* Dots */}
       <div className="flex justify-center items-center gap-2 mt-6">
         {features.map((_, index) => (
           <button
@@ -113,32 +105,20 @@ export default function Includes({ features, settings }: Props) {
         ))}
       </div>
 
-      {/* Flechas de navegación */}
+      {/* Flechas */}
       <div className="flex justify-center gap-3 mt-5">
         <button
           onClick={() => scrollToCard(Math.max(0, active - 1))}
           disabled={active === 0}
           className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-20"
-          style={{
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            color: '#fff',
-          }}
-        >
-          ←
-        </button>
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff' }}
+        >←</button>
         <button
           onClick={() => scrollToCard(Math.min(features.length - 1, active + 1))}
           disabled={active === features.length - 1}
           className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-20"
-          style={{
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            color: '#fff',
-          }}
-        >
-          →
-        </button>
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff' }}
+        >→</button>
       </div>
     </section>
   )

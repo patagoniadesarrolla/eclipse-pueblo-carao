@@ -1,16 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useScrollReveal } from '@/lib/useScrollReveal'
 
-// Eclipse total: 22 de julio de 2027, 20:00hs ART (UTC-3)
-const TARGET = new Date('2027-07-22T20:00:00-03:00')
+const TARGET = new Date('2027-02-06T11:52:00-03:00')
 
-interface Tiempo {
-  dias: number
-  horas: number
-  minutos: number
-  segundos: number
-}
+interface Tiempo { dias: number; horas: number; minutos: number; segundos: number }
 
 function calcularTiempo(): Tiempo {
   const diff = TARGET.getTime() - Date.now()
@@ -23,27 +18,17 @@ function calcularTiempo(): Tiempo {
   }
 }
 
-function Unidad({ valor, label }: { valor: number; label: string }) {
+function Unidad({ valor, label, delay }: { valor: number; label: string; delay: string }) {
   return (
-    <div className="flex flex-col items-center gap-3">
-      <div
-        className="w-full py-6 px-3 rounded-2xl flex items-center justify-center"
-        style={{
-          background: 'rgba(124,58,237,0.08)',
-          border: '1px solid rgba(124,58,237,0.25)',
-        }}
-      >
-        <span
-          className="text-4xl md:text-6xl font-bold text-white tabular-nums"
-          style={{ fontVariantNumeric: 'tabular-nums' }}
-        >
+    <div className={`reveal ${delay} flex flex-col items-center gap-3`}>
+      <div className="w-full py-6 px-3 rounded-2xl flex items-center justify-center"
+        style={{ background: 'rgba(124,58,237,0.08)', border: '1px solid rgba(124,58,237,0.25)' }}>
+        <span className="text-4xl md:text-6xl font-bold text-white tabular-nums"
+          style={{ fontVariantNumeric: 'tabular-nums' }}>
           {String(valor).padStart(2, '0')}
         </span>
       </div>
-      <span
-        className="text-xs uppercase tracking-widest font-medium"
-        style={{ color: 'rgba(255,255,255,0.35)' }}
-      >
+      <span className="text-xs uppercase tracking-widest font-bold" style={{ color: 'rgba(255,255,255,0.35)' }}>
         {label}
       </span>
     </div>
@@ -52,6 +37,7 @@ function Unidad({ valor, label }: { valor: number; label: string }) {
 
 export default function Countdown() {
   const [tiempo, setTiempo] = useState<Tiempo>(calcularTiempo())
+  const { ref, visible } = useScrollReveal()
 
   useEffect(() => {
     const interval = setInterval(() => setTiempo(calcularTiempo()), 1000)
@@ -60,24 +46,22 @@ export default function Countdown() {
 
   return (
     <section className="py-20 px-6" style={{ background: '#050508' }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <p
-          className="text-xs font-semibold tracking-widest uppercase mb-10"
-          style={{ color: '#d97706', letterSpacing: '0.25em' }}
-        >
-          El eclipse comienza en...
+      <div ref={ref} className="max-w-3xl mx-auto text-center">
+        <p className={`reveal text-xs font-bold tracking-[0.3em] uppercase mb-3 ${visible ? 'in-view' : ''}`}
+          style={{ color: '#dc2626' }}>
+          El anillo de fuego comienza en
+        </p>
+        <p className={`reveal reveal-d1 text-xs tracking-widest uppercase mb-10 ${visible ? 'in-view' : ''}`}
+          style={{ color: 'rgba(255,255,255,0.25)' }}>
+          6 Feb 2027 · 11:52 hs · Pueblo Carao, Esquel
         </p>
 
-        <div className="grid grid-cols-4 gap-3 md:gap-6">
-          <Unidad valor={tiempo.dias} label="Días" />
-          <Unidad valor={tiempo.horas} label="Horas" />
-          <Unidad valor={tiempo.minutos} label="Min" />
-          <Unidad valor={tiempo.segundos} label="Seg" />
+        <div className={`grid grid-cols-4 gap-3 md:gap-6 ${visible ? 'in-view' : ''}`}>
+          <Unidad valor={tiempo.dias}     label="Días"    delay="reveal-d1" />
+          <Unidad valor={tiempo.horas}    label="Horas"   delay="reveal-d2" />
+          <Unidad valor={tiempo.minutos}  label="Min"     delay="reveal-d3" />
+          <Unidad valor={tiempo.segundos} label="Seg"     delay="reveal-d4" />
         </div>
-
-        <p className="mt-8 text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>
-          22 de julio de 2027 · 20:00 hs · Lago Puelo, Patagonia
-        </p>
       </div>
     </section>
   )

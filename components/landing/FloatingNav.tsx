@@ -1,21 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useT } from '@/lib/i18n'
 
-const SECTIONS = [
-  { id: 'hero',      label: 'Inicio'           },
-  { id: 'countdown', label: 'Cuenta regresiva' },
-  { id: 'mito',      label: 'El mito'          },
-  { id: 'programa',  label: 'Programa'         },
-  { id: 'includes',  label: '¿Qué incluye?'   },
-  { id: 'location',  label: 'El lugar'         },
-  { id: 'faq',       label: 'FAQ'              },
-]
+const SECTION_IDS = ['hero', 'countdown', 'mito', 'programa', 'includes', 'location', 'faq'] as const
 
 export default function FloatingNav() {
   const [active, setActive]   = useState('hero')
   const [hovered, setHovered] = useState<string | null>(null)
   const [visible, setVisible] = useState(false)
+  const nav = useT<Record<string, string>>('nav')
+
+  const SECTIONS = SECTION_IDS.map(id => ({ id, label: nav[id] ?? id }))
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 120)
@@ -25,7 +21,7 @@ export default function FloatingNav() {
 
   useEffect(() => {
     const observers: IntersectionObserver[] = []
-    SECTIONS.forEach(({ id }) => {
+    SECTION_IDS.forEach((id) => {
       const el = document.getElementById(id)
       if (!el) return
       const obs = new IntersectionObserver(
@@ -58,7 +54,6 @@ export default function FloatingNav() {
         pointerEvents: visible ? 'auto' : 'none',
       }}
     >
-      {/* Cápsula de fondo */}
       <div style={{
         position: 'absolute',
         inset: '-12px -8px',
@@ -69,14 +64,12 @@ export default function FloatingNav() {
         WebkitBackdropFilter: 'blur(12px)',
       }} />
 
-      {/* Puntos de sección */}
       {SECTIONS.map((section, i) => {
         const isActive  = active === section.id
         const isHovered = hovered === section.id
 
         return (
           <div key={section.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
-            {/* Label */}
             <div style={{
               position: 'absolute',
               right: '28px',
@@ -99,7 +92,6 @@ export default function FloatingNav() {
               {section.label}
             </div>
 
-            {/* Punto */}
             <button
               onClick={() => scrollTo(section.id)}
               onMouseEnter={() => setHovered(section.id)}
@@ -108,13 +100,9 @@ export default function FloatingNav() {
                 width:  isActive ? '14px' : '8px',
                 height: isActive ? '14px' : '8px',
                 borderRadius: '50%',
-                border: isActive
-                  ? '2px solid #7c3aed'
-                  : '1.5px solid var(--c-border)',
+                border: isActive ? '2px solid #7c3aed' : '1.5px solid var(--c-border)',
                 background: isActive ? '#7c3aed' : 'var(--c-card)',
-                boxShadow: isActive
-                  ? '0 0 0 4px rgba(124,58,237,0.2), 0 0 12px rgba(124,58,237,0.6)'
-                  : 'none',
+                boxShadow: isActive ? '0 0 0 4px rgba(124,58,237,0.2), 0 0 12px rgba(124,58,237,0.6)' : 'none',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 position: 'relative',
@@ -126,7 +114,6 @@ export default function FloatingNav() {
               aria-label={section.label}
             />
 
-            {/* Línea conectora */}
             {i < SECTIONS.length - 1 && (
               <div style={{
                 width: '1px',

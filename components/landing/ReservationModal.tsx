@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { readStoredUTMs } from './UTMCapture'
+import { useT } from '@/lib/i18n'
 
 interface Props {
   isOpen: boolean
@@ -24,6 +25,7 @@ export default function ReservationModal({ isOpen, onClose }: Props) {
   const [loading, setLoading] = useState(false)
   const [enviado, setEnviado] = useState(false)
   const [error, setError] = useState('')
+  const t = useT<typeof import('@/messages/es.json')['modal']>('modal')
 
   if (!isOpen) return null
 
@@ -43,7 +45,7 @@ export default function ReservationModal({ isOpen, onClose }: Props) {
 
       setEnviado(true)
     } catch {
-      setError('Algo salió mal. Por favor intentá de nuevo.')
+      setError(t.error)
     } finally {
       setLoading(false)
     }
@@ -83,31 +85,29 @@ export default function ReservationModal({ isOpen, onClose }: Props) {
         </button>
 
         {enviado ? (
-          /* Estado de éxito */
           <div className="text-center py-8">
             <div className="text-6xl mb-5">🌒</div>
             <h3 className="text-2xl font-bold text-white mb-3">
-              ¡Tu lugar está reservado!
+              {t.success_title}
             </h3>
             <p style={{ color: 'rgba(255,255,255,0.55)' }}>
-              Te contactamos en las próximas 24 horas para coordinar todos los detalles.
+              {t.success_body}
             </p>
             <button
               onClick={onClose}
               className="mt-8 text-sm underline underline-offset-4 transition-opacity hover:opacity-60"
               style={{ color: 'rgba(255,255,255,0.35)' }}
             >
-              Cerrar
+              {t.close}
             </button>
           </div>
         ) : (
-          /* Formulario */
           <>
             <h2 className="text-2xl font-bold text-white mb-1">
-              Reservar mi lugar
+              {t.title}
             </h2>
             <p className="mb-7 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              Completá tus datos y te contactamos en las próximas 24 horas.
+              {t.subtitle}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -116,17 +116,15 @@ export default function ReservationModal({ isOpen, onClose }: Props) {
                   className="block text-sm font-medium mb-1.5"
                   style={{ color: 'rgba(255,255,255,0.7)' }}
                 >
-                  Nombre completo *
+                  {t.name_label}
                 </label>
                 <input
                   type="text"
                   required
                   value={form.name}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, name: e.target.value }))
-                  }
+                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   style={inputStyle}
-                  placeholder="Tu nombre"
+                  placeholder={t.name_placeholder}
                 />
               </div>
 
@@ -135,17 +133,15 @@ export default function ReservationModal({ isOpen, onClose }: Props) {
                   className="block text-sm font-medium mb-1.5"
                   style={{ color: 'rgba(255,255,255,0.7)' }}
                 >
-                  Email *
+                  {t.email_label}
                 </label>
                 <input
                   type="email"
                   required
                   value={form.email}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, email: e.target.value }))
-                  }
+                  onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   style={inputStyle}
-                  placeholder="tu@email.com"
+                  placeholder={t.email_placeholder}
                 />
               </div>
 
@@ -154,16 +150,14 @@ export default function ReservationModal({ isOpen, onClose }: Props) {
                   className="block text-sm font-medium mb-1.5"
                   style={{ color: 'rgba(255,255,255,0.7)' }}
                 >
-                  Teléfono / WhatsApp
+                  {t.phone_label}
                 </label>
                 <input
                   type="tel"
                   value={form.phone}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, phone: e.target.value }))
-                  }
+                  onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                   style={inputStyle}
-                  placeholder="+54 9 11 1234 5678"
+                  placeholder={t.phone_placeholder}
                 />
               </div>
 
@@ -182,7 +176,7 @@ export default function ReservationModal({ isOpen, onClose }: Props) {
                   marginTop: '8px',
                 }}
               >
-                {loading ? 'Enviando...' : 'Confirmar mi reserva'}
+                {loading ? t.submitting : t.submit}
               </button>
             </form>
           </>

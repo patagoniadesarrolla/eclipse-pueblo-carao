@@ -1,20 +1,26 @@
+'use client'
+
+import { useT } from '@/lib/i18n'
+
 export default function Footer() {
+  const t = useT<typeof import('@/messages/es.json')['footer']>('footer')
+
   return (
     <footer className="py-12 px-6" style={{ background: 'var(--c-bg)', borderTop: '1px solid var(--c-border)' }}>
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
             <p className="text-white font-bold text-lg tracking-tight uppercase">
-              Eclipse en Pueblo Carao
+              {t.title}
             </p>
             <p className="text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
-              Astroturismo premium · 6 Feb 2027 · Esquel, Patagonia
+              {t.subtitle}
             </p>
           </div>
 
           <div className="text-center md:text-right">
             <p className="text-sm mb-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
-              ¿Tenés alguna pregunta?
+              {t.question}
             </p>
             <a href="mailto:hola@pueblocarao.com"
               className="font-semibold transition-opacity hover:opacity-75"
@@ -28,7 +34,7 @@ export default function Footer() {
         <div className="mt-8 pt-8 flex flex-col items-center gap-3"
           style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
           <p className="text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.2)' }}>
-            Con el apoyo de
+            {t.supported_by}
           </p>
           <div className="flex items-center gap-6 flex-wrap justify-center">
             {['Pueblo Carao', 'Reina Mora', 'Trama'].map((p, i, arr) => (
@@ -46,7 +52,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-6 text-center text-xs" style={{ color: 'rgba(255,255,255,0.12)' }}>
-          © 2027 Pueblo Carao. Todos los derechos reservados.
+          {t.rights}
         </div>
       </div>
     </footer>

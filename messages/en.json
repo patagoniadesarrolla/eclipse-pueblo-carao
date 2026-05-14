@@ -1,0 +1,176 @@
+{
+  "nav": {
+    "inicio": "Home",
+    "countdown": "Countdown",
+    "mito": "The myth",
+    "programa": "Schedule",
+    "includes": "What's included?",
+    "location": "The venue",
+    "faq": "FAQ"
+  },
+  "topbar": {
+    "dark": "Dark",
+    "light": "Light"
+  },
+  "hero": {
+    "eyebrow": "Patagonia, Argentina",
+    "dragon": "The celestial dragon devours the sun · February 6, 2027",
+    "per_person": "per person · complete experience",
+    "cta": "Reserve my spot",
+    "disclaimer": "Limited capacity · No booking fee"
+  },
+  "countdown": {
+    "prefix": "The ring of fire begins in",
+    "subtitle": "Feb 6, 2027 · 11:52 am · Pueblo Carao, Esquel",
+    "days": "Days",
+    "hours": "Hours",
+    "min": "Min",
+    "sec": "Sec"
+  },
+  "mito": {
+    "eyebrow": "Why here · Why now",
+    "title": "The dragon myth\nis not decorative",
+    "body": "From Babylon, India, the Arab world and medieval Europe, astronomers called the lunar nodes Caput Draconis and Cauda Draconis —Head and Tail of the Dragon—. Eclipses only occur at those points, as they are the only intersection between the orbits of the Sun and the Moon. When both celestial bodies align near those nodes, the dragon devours them.",
+    "quote": "Modern astronomy replaced the myth with geometry, but kept the name.",
+    "closing_pre": "On February 6, 2027, at midday",
+    "closing_main": "The Dragon's Head will be over the skies of Esquel.",
+    "closing_post": "And at Pueblo Carao, an iron dragon has been waiting for exactly this moment.",
+    "datos": [
+      {
+        "label": "Caput Draconis",
+        "value": "Dragon's Head",
+        "desc": "The north lunar node — the only point in the sky where the dragon can devour the Sun. On February 6, 2027, it will be over Esquel."
+      },
+      {
+        "label": "Draconic month",
+        "value": "27.21 days",
+        "desc": "The cycle that measures the time between each passage of the Moon through the same node. Modern astronomy kept the mythological name."
+      },
+      {
+        "label": "Saros cycle",
+        "value": "18 years · 11 days",
+        "desc": "The cycle that allows eclipses to be predicted with millimetric precision. It is calculated by combining the draconic month with two other lunar cycles."
+      }
+    ]
+  },
+  "programa": {
+    "eyebrow": "The complete experience",
+    "title": "Three acts",
+    "tab_before": "Before",
+    "tab_day": "The day",
+    "tab_after": "After",
+    "before_intro": "The experience begins the day you confirm your spot, not on February 6.",
+    "after_intro": "Most events die when the last drink is poured. This one doesn't.",
+    "before_items": [
+      {
+        "icon": "✉",
+        "title": "Welcome email",
+        "desc": "When you confirm your spot you receive the first text: the myth of the celestial dragon, the tone of the event, the beginning of something different."
+      },
+      {
+        "icon": "📖",
+        "title": "4 content deliveries",
+        "desc": "One piece each month: the dragon and lunar nodes, the physics of an annular eclipse, the history of Carao and its Welsh roots, and instructions for the day."
+      },
+      {
+        "icon": "🗺",
+        "title": "Event brief",
+        "desc": "You'll arrive knowing what will happen in the sky and on the ground, what you will feel in your body, and why this is the only place that makes sense to be."
+      }
+    ],
+    "day_items": [
+      { "time": "9:00",  "title": "Welcome",          "desc": "Individual reception · Attendee kit: map, myth, eclipse timings and blank space for what you see.",                      "highlight": false },
+      { "time": "9:30",  "title": "Breakfast",         "desc": "Buffet table with limited-edition Eclipse Cookies, specially crafted for the event.",                                   "highlight": false },
+      { "time": "10:15", "title": "Presentation",      "desc": "20 minutes that activate the narrative before partial coverage begins. Not an astronomy class: part of the story.",    "highlight": false },
+      { "time": "11:52", "title": "The ring of fire",  "desc": "7 minutes. The agreed silence. The shadow of the iron dragon lit from the sky. The sudden cold. The sky changes.",     "highlight": true  },
+      { "time": "12:10", "title": "Sol Fest",           "desc": "Celebration after the ring: live music, food, photography, art and yoga. The event opens up.",                        "highlight": false }
+    ],
+    "after_items": [
+      {
+        "icon": "📬",
+        "title": "Closing piece",
+        "desc": "48 hours later: not a thank-you note. A text that gives back the experience with the words that weren't there in the moment."
+      },
+      {
+        "icon": "📷",
+        "title": "Memory archive",
+        "desc": "A digital photo selection with a narrative eye. Not social media content: the full account of what you lived."
+      }
+    ]
+  },
+  "location": {
+    "eyebrow": "The venue",
+    "title_1": "Pueblo Carao,",
+    "title_2": "Esquel",
+    "subtitle": "A mountain village in Argentine Patagonia with Welsh roots, an iron dragon and the 2027 annular eclipse passing directly overhead.",
+    "historia": [
+      {
+        "label": "Welsh roots",
+        "text": "In the late 19th century, Welsh settlers arrived in Patagonia seeking to preserve their language and culture. They founded Esquel and the Chubut valleys. Pueblo Carao is a direct heir to that history: a place built by hand, with its own identity, on the very soil they chose."
+      },
+      {
+        "label": "The iron dragon",
+        "text": "In Welsh tradition, the red dragon is the national symbol — the Y Ddraig Goch of the flag. At Pueblo Carao there is an iron sculpture that has stood for years. It was not built for the eclipse. But the eclipse finds it exactly where it needs to be."
+      },
+      {
+        "label": "The eclipse corridor",
+        "text": "On February 6, 2027, the annular eclipse corridor passes over Esquel. There will be many places to see the ring. Only one has a Welsh iron dragon, centuries of history, beneath the celestial Dragon's Head."
+      }
+    ],
+    "stats": [
+      { "value": "6 FEB", "label": "2027 · eclipse day" },
+      { "value": "7 min", "label": "of ring of fire" },
+      { "value": "40",    "label": "people maximum" },
+      { "value": "1",     "label": "iron dragon" }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Frequently asked questions",
+    "title": "FAQ",
+    "items": [
+      {
+        "q": "What happens if the weather doesn't cooperate on eclipse day?",
+        "a": "Pueblo Carao is strategically located in a low-cloud area of Esquel. In adverse conditions, we have contingency plans with nearby alternative locations. The full experience and expert accompaniment are guaranteed regardless of the weather."
+      },
+      {
+        "q": "How do I get to Pueblo Carao?",
+        "a": "Esquel has its own airport (EQS - Aeropuerto Tehuelches) with direct flights from Buenos Aires. You can also drive from Bariloche in approximately 4 hours. When you confirm your booking we send you a detailed guide with all access options."
+      },
+      {
+        "q": "What exactly is included in the $300 USD price?",
+        "a": "Includes: welcome buffet breakfast, presentation and guide throughout the event, access to the eclipse observation point, event kit (maps + certified solar lenses + exclusive merchandise), and the Sol Fest closing party with live music, food, photography, art and yoga. Does not include transport or accommodation."
+      },
+      {
+        "q": "How many people will be at the event?",
+        "a": "To preserve the experience and guarantee personalised attention, the event is limited to 40 people. Each guide attends a maximum of 10 people."
+      },
+      {
+        "q": "What is the cancellation policy?",
+        "a": "You can cancel free of charge up to 60 days before the event (December 7, 2026). Between 60 and 30 days before: 50% refund. Less than 30 days: no refund, but you can transfer your spot to another person. In case of force majeure cancellation, we refund 100%."
+      }
+    ]
+  },
+  "footer": {
+    "title": "Eclipse at Pueblo Carao",
+    "subtitle": "Premium astrotourism · Feb 6, 2027 · Esquel, Patagonia",
+    "question": "Have a question?",
+    "supported_by": "Supported by",
+    "rights": "© 2027 Pueblo Carao. All rights reserved."
+  },
+  "modal": {
+    "title": "Reserve my spot",
+    "subtitle": "Fill in your details and we'll get back to you within 24 hours.",
+    "name_label": "Full name *",
+    "name_placeholder": "Your name",
+    "email_label": "Email *",
+    "email_placeholder": "you@email.com",
+    "phone_label": "Phone / WhatsApp",
+    "phone_placeholder": "+1 555 1234 5678",
+    "error": "Something went wrong. Please try again.",
+    "submitting": "Sending...",
+    "submit": "Confirm my reservation",
+    "close": "Close",
+    "success_title": "Your spot is reserved!",
+    "success_body": "We'll contact you within 24 hours to coordinate all the details."
+  }
+}

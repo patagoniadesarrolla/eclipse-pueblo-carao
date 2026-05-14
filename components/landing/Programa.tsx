@@ -2,50 +2,9 @@
 
 import { useState } from 'react'
 import { useScrollReveal } from '@/lib/useScrollReveal'
+import { useT } from '@/lib/i18n'
 
-/* ── Fase ANTES ──────────────────────────────────────────────────────────── */
-const ANTES = [
-  {
-    icon: '✉',
-    title: 'Mail de bienvenida',
-    desc: 'Al confirmar tu lugar recibís el primer texto: el mito del dragón celeste, el tono del evento, el comienzo de algo diferente.',
-  },
-  {
-    icon: '📖',
-    title: '4 entregas de contenido',
-    desc: 'Cada mes una pieza distinta: el dragón y los nodos lunares, la física del eclipse anular, la historia de Carao y sus raíces galesas, las instrucciones para el día.',
-  },
-  {
-    icon: '🗺',
-    title: 'Brief del evento',
-    desc: 'Llegás sabiendo qué va a pasar en el cielo y en la tierra, qué vas a sentir en el cuerpo, y por qué este lugar es el único donde tiene sentido estar.',
-  },
-]
-
-/* ── Fase EL DÍA ─────────────────────────────────────────────────────────── */
-const DIA = [
-  { time: '9:00',  title: 'Bienvenida',      desc: 'Recepción individual · Kit del asistente: mapa, mito, tiempos del eclipse y espacio en blanco para lo que veás.',                  highlight: false },
-  { time: '9:30',  title: 'Desayuno',         desc: 'Mesa buffet con las Galletas Eclipse de edición limitada, especialmente elaboradas para el evento.',                               highlight: false },
-  { time: '10:15', title: 'Presentación',     desc: '20 minutos que activan el relato antes de la cobertura parcial. No es una clase de astronomía: es parte de la narrativa.',        highlight: false },
-  { time: '11:52', title: 'El anillo de fuego', desc: '7 minutos. El silencio acordado. La sombra del dragón de hierro iluminada desde el cielo. El frío repentino. El cielo cambia.', highlight: true  },
-  { time: '12:10', title: 'Sol Fest',          desc: 'Celebración después del anillo: música en vivo, gastronomía, fotografía, arte y yoga. El evento abre.',                          highlight: false },
-]
-
-/* ── Fase DESPUÉS ────────────────────────────────────────────────────────── */
-const DESPUES = [
-  {
-    icon: '📬',
-    title: 'Pieza de cierre',
-    desc: 'A las 48 horas: no es un agradecimiento. Es un texto que devuelve la experiencia con las palabras que no se tuvieron en el momento.',
-  },
-  {
-    icon: '📷',
-    title: 'Archivo de memoria',
-    desc: 'Selección fotográfica digital con criterio narrativo. No es contenido de redes: es el racconto de lo que viviste.',
-  },
-]
-
-/* ── Componentes ──────────────────────────────────────────────────────────── */
+type FaseKey = 'before' | 'day' | 'after'
 
 function BeforeAfterItem({ icon, title, desc }: { icon: string; title: string; desc: string }) {
   const { ref, visible } = useScrollReveal(0.15)
@@ -63,7 +22,7 @@ function BeforeAfterItem({ icon, title, desc }: { icon: string; title: string; d
   )
 }
 
-function DayItem({ item, delay }: { item: typeof DIA[0]; delay: string }) {
+function DayItem({ item, delay }: { item: { time: string; title: string; desc: string; highlight: boolean }; delay: string }) {
   const { ref, visible } = useScrollReveal(0.15)
   return (
     <div ref={ref} className={`reveal ${delay} ${visible ? 'in-view' : ''} flex gap-5 mb-6 last:mb-0`}>
@@ -103,14 +62,16 @@ function DayItem({ item, delay }: { item: typeof DIA[0]; delay: string }) {
   )
 }
 
-/* ── Tabs ──────────────────────────────────────────────────────────────────── */
-
-const FASES = ['Antes', 'El día', 'Después'] as const
-type Fase = typeof FASES[number]
-
 export default function Programa() {
-  const [fase, setFase] = useState<Fase>('El día')
+  const [faseKey, setFaseKey] = useState<FaseKey>('day')
   const { ref, visible } = useScrollReveal()
+  const t = useT<typeof import('@/messages/es.json')['programa']>('programa')
+
+  const tabs: { key: FaseKey; label: string }[] = [
+    { key: 'before', label: t.tab_before },
+    { key: 'day',    label: t.tab_day },
+    { key: 'after',  label: t.tab_after },
+  ]
 
   return (
     <section id="programa" className="py-24 px-6" style={{ background: 'var(--c-bg-alt)' }}>
@@ -120,55 +81,54 @@ export default function Programa() {
         <div ref={ref} className="text-center mb-10">
           <p className={`reveal text-xs font-bold tracking-[0.3em] uppercase mb-4 ${visible ? 'in-view' : ''}`}
             style={{ color: '#dc2626' }}>
-            La experiencia completa
+            {t.eyebrow}
           </p>
           <h2 className={`reveal reveal-d1 text-3xl md:text-5xl font-bold text-white uppercase tracking-tight ${visible ? 'in-view' : ''}`}>
-            Tres actos
+            {t.title}
           </h2>
         </div>
 
         {/* Tabs */}
         <div className="flex justify-center gap-2 mb-10">
-          {FASES.map((f) => (
-            <button key={f} onClick={() => setFase(f)}
+          {tabs.map(({ key, label }) => (
+            <button key={key} onClick={() => setFaseKey(key)}
               className="px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200"
               style={{
-                background: fase === f ? '#dc2626' : 'rgba(255,255,255,0.05)',
-                color:      fase === f ? '#fff'    : 'rgba(255,255,255,0.45)',
-                border:     fase === f ? '1px solid #dc2626' : '1px solid rgba(255,255,255,0.08)',
+                background: faseKey === key ? '#dc2626' : 'rgba(255,255,255,0.05)',
+                color:      faseKey === key ? '#fff'    : 'rgba(255,255,255,0.45)',
+                border:     faseKey === key ? '1px solid #dc2626' : '1px solid rgba(255,255,255,0.08)',
               }}>
-              {f}
+              {label}
             </button>
           ))}
         </div>
 
         {/* Contenido */}
-        {fase === 'Antes' && (
+        {faseKey === 'before' && (
           <div>
             <p className="text-sm text-center mb-8" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              La experiencia empieza el día que confirmás tu lugar, no el 6 de febrero.
+              {t.before_intro}
             </p>
-            {ANTES.map((item) => <BeforeAfterItem key={item.title} {...item} />)}
+            {t.before_items.map((item) => <BeforeAfterItem key={item.title} {...item} />)}
           </div>
         )}
 
-        {fase === 'El día' && (
+        {faseKey === 'day' && (
           <div className="relative">
-            {/* Línea vertical */}
             <div className="absolute left-[64px] top-2 bottom-2 w-px hidden sm:block"
               style={{ background: 'linear-gradient(to bottom, transparent, rgba(124,58,237,0.4) 10%, rgba(124,58,237,0.4) 90%, transparent)' }} />
-            {DIA.map((item, i) => (
+            {t.day_items.map((item, i) => (
               <DayItem key={i} item={item} delay={`reveal-d${Math.min(i + 1, 4)}`} />
             ))}
           </div>
         )}
 
-        {fase === 'Después' && (
+        {faseKey === 'after' && (
           <div>
             <p className="text-sm text-center mb-8" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              La mayoría de los eventos mueren cuando termina la última copa. Esto no.
+              {t.after_intro}
             </p>
-            {DESPUES.map((item) => <BeforeAfterItem key={item.title} {...item} />)}
+            {t.after_items.map((item) => <BeforeAfterItem key={item.title} {...item} />)}
           </div>
         )}
 

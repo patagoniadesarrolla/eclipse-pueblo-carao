@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { LandingSettings } from '@/types'
 import { hexToRgba } from '@/lib/colors'
 import ReservationModal from './ReservationModal'
+import { useT } from '@/lib/i18n'
 
 interface Props {
   settings: LandingSettings
@@ -44,6 +45,7 @@ function HeroBackground({ settings }: { settings: LandingSettings }) {
 export default function Hero({ settings }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { primary_color: primary, secondary_color: secondary } = settings
+  const t = useT<typeof import('@/messages/es.json')['hero']>('hero')
 
   return (
     <section
@@ -67,7 +69,7 @@ export default function Hero({ settings }: Props) {
         <div className="hero-enter flex items-center justify-center gap-3 mb-6">
           <div className="h-px w-8" style={{ background: '#dc2626' }} />
           <p className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: secondary }}>
-            Patagonia Argentina
+            {t.eyebrow}
           </p>
           <div className="h-px w-8" style={{ background: '#dc2626' }} />
         </div>
@@ -92,14 +94,14 @@ export default function Hero({ settings }: Props) {
         {/* Frase del dragón */}
         <p className="hero-enter-d3 text-sm md:text-base font-bold tracking-widest uppercase mb-10"
           style={{ color: '#dc2626' }}>
-          El dragón celeste devora el sol · 6 de febrero de 2027
+          {t.dragon}
         </p>
 
         <div className="hero-enter-d4 flex flex-col items-center gap-5">
           <div className="text-center">
             <p className="text-5xl font-bold text-white">{settings.hero_price}</p>
             <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              por persona · experiencia completa
+              {t.per_person}
             </p>
           </div>
 
@@ -112,11 +114,11 @@ export default function Hero({ settings }: Props) {
               letterSpacing: '0.15em',
             }}
           >
-            Reservar mi lugar
+            {t.cta}
           </button>
 
           <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>
-            Cupos limitados · Sin cargo por consulta
+            {t.disclaimer}
           </p>
         </div>
       </div>

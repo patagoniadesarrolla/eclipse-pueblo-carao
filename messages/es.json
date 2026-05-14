@@ -1,0 +1,176 @@
+{
+  "nav": {
+    "inicio": "Inicio",
+    "countdown": "Cuenta regresiva",
+    "mito": "El mito",
+    "programa": "Programa",
+    "includes": "¿Qué incluye?",
+    "location": "El lugar",
+    "faq": "FAQ"
+  },
+  "topbar": {
+    "dark": "Oscuro",
+    "light": "Claro"
+  },
+  "hero": {
+    "eyebrow": "Patagonia Argentina",
+    "dragon": "El dragón celeste devora el sol · 6 de febrero de 2027",
+    "per_person": "por persona · experiencia completa",
+    "cta": "Reservar mi lugar",
+    "disclaimer": "Cupos limitados · Sin cargo por consulta"
+  },
+  "countdown": {
+    "prefix": "El anillo de fuego comienza en",
+    "subtitle": "6 Feb 2027 · 11:52 hs · Pueblo Carao, Esquel",
+    "days": "Días",
+    "hours": "Horas",
+    "min": "Min",
+    "sec": "Seg"
+  },
+  "mito": {
+    "eyebrow": "Por qué aquí · Por qué ahora",
+    "title": "El mito del dragón\nno es decorativo",
+    "body": "Desde Babilonia, la India, el mundo árabe y la Europa medieval, los astrónomos llamaron a los nodos lunares Caput Draconis y Cauda Draconis —Cabeza y Cola del Dragón—. Los eclipses solo ocurren en esos puntos, porque son la única intersección entre la órbita del Sol y la de la Luna. Cuando ambos astros se alinean cerca de esos nodos, el dragón los devora.",
+    "quote": "La astronomía moderna cambió el mito por la geometría, pero conservó el nombre.",
+    "closing_pre": "El 6 de febrero de 2027, al mediodía",
+    "closing_main": "La Cabeza del Dragón estará sobre el cielo de Esquel.",
+    "closing_post": "Y en Pueblo Carao hay un dragón de hierro esperando exactamente este momento.",
+    "datos": [
+      {
+        "label": "Caput Draconis",
+        "value": "Cabeza del Dragón",
+        "desc": "El nodo lunar norte — el único punto del cielo donde el dragón puede devorar el Sol. El 6 de febrero de 2027 estará sobre Esquel."
+      },
+      {
+        "label": "Mes dracónico",
+        "value": "27,21 días",
+        "desc": "El ciclo que mide el tiempo entre cada paso de la Luna por el mismo nodo. La astronomía moderna conservó el nombre del mito."
+      },
+      {
+        "label": "Ciclo de Saros",
+        "value": "18 años · 11 días",
+        "desc": "El ciclo que permite predecir eclipses con precisión milimétrica. Se calcula combinando el mes dracónico con otros dos ciclos lunares."
+      }
+    ]
+  },
+  "programa": {
+    "eyebrow": "La experiencia completa",
+    "title": "Tres actos",
+    "tab_before": "Antes",
+    "tab_day": "El día",
+    "tab_after": "Después",
+    "before_intro": "La experiencia empieza el día que confirmás tu lugar, no el 6 de febrero.",
+    "after_intro": "La mayoría de los eventos mueren cuando termina la última copa. Esto no.",
+    "before_items": [
+      {
+        "icon": "✉",
+        "title": "Mail de bienvenida",
+        "desc": "Al confirmar tu lugar recibís el primer texto: el mito del dragón celeste, el tono del evento, el comienzo de algo diferente."
+      },
+      {
+        "icon": "📖",
+        "title": "4 entregas de contenido",
+        "desc": "Cada mes una pieza distinta: el dragón y los nodos lunares, la física del eclipse anular, la historia de Carao y sus raíces galesas, las instrucciones para el día."
+      },
+      {
+        "icon": "🗺",
+        "title": "Brief del evento",
+        "desc": "Llegás sabiendo qué va a pasar en el cielo y en la tierra, qué vas a sentir en el cuerpo, y por qué este lugar es el único donde tiene sentido estar."
+      }
+    ],
+    "day_items": [
+      { "time": "9:00",  "title": "Bienvenida",       "desc": "Recepción individual · Kit del asistente: mapa, mito, tiempos del eclipse y espacio en blanco para lo que veás.",                   "highlight": false },
+      { "time": "9:30",  "title": "Desayuno",          "desc": "Mesa buffet con las Galletas Eclipse de edición limitada, especialmente elaboradas para el evento.",                                "highlight": false },
+      { "time": "10:15", "title": "Presentación",      "desc": "20 minutos que activan el relato antes de la cobertura parcial. No es una clase de astronomía: es parte de la narrativa.",         "highlight": false },
+      { "time": "11:52", "title": "El anillo de fuego","desc": "7 minutos. El silencio acordado. La sombra del dragón de hierro iluminada desde el cielo. El frío repentino. El cielo cambia.",   "highlight": true  },
+      { "time": "12:10", "title": "Sol Fest",           "desc": "Celebración después del anillo: música en vivo, gastronomía, fotografía, arte y yoga. El evento abre.",                           "highlight": false }
+    ],
+    "after_items": [
+      {
+        "icon": "📬",
+        "title": "Pieza de cierre",
+        "desc": "A las 48 horas: no es un agradecimiento. Es un texto que devuelve la experiencia con las palabras que no se tuvieron en el momento."
+      },
+      {
+        "icon": "📷",
+        "title": "Archivo de memoria",
+        "desc": "Selección fotográfica digital con criterio narrativo. No es contenido de redes: es el racconto de lo que viviste."
+      }
+    ]
+  },
+  "location": {
+    "eyebrow": "El lugar",
+    "title_1": "Pueblo Carao,",
+    "title_2": "Esquel",
+    "subtitle": "Una aldea de montaña en la Patagonia argentina con raíces galesas, un dragón de hierro y el eclipse anular de 2027 pasando directamente sobre ella.",
+    "historia": [
+      {
+        "label": "Raíces galesas",
+        "text": "A finales del siglo XIX, colonos galeses llegaron a la Patagonia buscando preservar su lengua y cultura. Fundaron Esquel y los valles del Chubut. Pueblo Carao es heredero directo de esa historia: un lugar construido a mano, con identidad propia, en el mismo suelo que eligieron."
+      },
+      {
+        "label": "El dragón de hierro",
+        "text": "En la tradición galesa, el dragón rojo es el símbolo nacional — el Y Ddraig Goch de la bandera. En Pueblo Carao hay una escultura de hierro que lleva años en pie. No fue construida para el eclipse. Pero el eclipse la encuentra exactamente donde tiene que estar."
+      },
+      {
+        "label": "El corredor del eclipse",
+        "text": "El 6 de febrero de 2027, el corredor del eclipse anular pasa sobre Esquel. Habrá muchos lugares para ver el anillo. Solo uno tiene un dragón galés de hierro, con historia de siglos, debajo de la Cabeza del Dragón celeste."
+      }
+    ],
+    "stats": [
+      { "value": "6 FEB", "label": "2027 · día del eclipse" },
+      { "value": "7 min", "label": "de anillo de fuego" },
+      { "value": "40",    "label": "personas máximo" },
+      { "value": "1",     "label": "dragón de hierro" }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Preguntas frecuentes",
+    "title": "FAQ",
+    "items": [
+      {
+        "q": "¿Qué pasa si el clima no acompaña el día del eclipse?",
+        "a": "Pueblo Carao está ubicado estratégicamente en una zona de baja nubosidad de Esquel. Ante condiciones adversas, tenemos planes de contingencia con ubicaciones alternativas cercanas. La experiencia completa y el acompañamiento experto están garantizados independientemente del clima."
+      },
+      {
+        "q": "¿Cómo llego a Pueblo Carao?",
+        "a": "Esquel tiene aeropuerto propio (EQS - Aeropuerto Tehuelches) con vuelos directos desde Buenos Aires. También podés llegar en auto desde Bariloche en aproximadamente 4 horas. Al confirmar tu reserva te enviamos una guía detallada con todas las opciones de acceso."
+      },
+      {
+        "q": "¿Qué incluye exactamente el precio de $300 USD?",
+        "a": "Incluye: desayuno buffet de bienvenida, presentación y guía durante todo el evento, acceso al punto de observación del eclipse, kit del evento (mapas + lentes solares certificados + merchandising exclusivo), y la fiesta de cierre Sol Fest con música, gastronomía, fotografía, arte y yoga. No incluye transporte ni alojamiento."
+      },
+      {
+        "q": "¿Cuántas personas habrá en el evento?",
+        "a": "Para preservar la experiencia y garantizar atención personalizada, el evento está limitado a 40 personas. Cada guía atiende un máximo de 10 personas."
+      },
+      {
+        "q": "¿Cuál es la política de cancelación?",
+        "a": "Podés cancelar sin cargo hasta 60 días antes del evento (7 de diciembre de 2026). Entre 60 y 30 días antes: reembolso del 50%. Con menos de 30 días: sin reembolso, pero podés transferir tu lugar a otra persona. En caso de cancelación por fuerza mayor, reembolsamos el 100%."
+      }
+    ]
+  },
+  "footer": {
+    "title": "Eclipse en Pueblo Carao",
+    "subtitle": "Astroturismo premium · 6 Feb 2027 · Esquel, Patagonia",
+    "question": "¿Tenés alguna pregunta?",
+    "supported_by": "Con el apoyo de",
+    "rights": "© 2027 Pueblo Carao. Todos los derechos reservados."
+  },
+  "modal": {
+    "title": "Reservar mi lugar",
+    "subtitle": "Completá tus datos y te contactamos en las próximas 24 horas.",
+    "name_label": "Nombre completo *",
+    "name_placeholder": "Tu nombre",
+    "email_label": "Email *",
+    "email_placeholder": "tu@email.com",
+    "phone_label": "Teléfono / WhatsApp",
+    "phone_placeholder": "+54 9 11 1234 5678",
+    "error": "Algo salió mal. Por favor intentá de nuevo.",
+    "submitting": "Enviando...",
+    "submit": "Confirmar mi reserva",
+    "close": "Cerrar",
+    "success_title": "¡Tu lugar está reservado!",
+    "success_body": "Te contactamos en las próximas 24 horas para coordinar todos los detalles."
+  }
+}

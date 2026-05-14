@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useScrollReveal } from '@/lib/useScrollReveal'
+import { useT } from '@/lib/i18n'
 
 const TARGET = new Date('2027-02-06T11:52:00-03:00')
 
@@ -38,6 +39,7 @@ function Unidad({ valor, label, delay }: { valor: number; label: string; delay: 
 export default function Countdown() {
   const [tiempo, setTiempo] = useState<Tiempo>(calcularTiempo())
   const { ref, visible } = useScrollReveal()
+  const t = useT<typeof import('@/messages/es.json')['countdown']>('countdown')
 
   useEffect(() => {
     const interval = setInterval(() => setTiempo(calcularTiempo()), 1000)
@@ -49,18 +51,18 @@ export default function Countdown() {
       <div ref={ref} className="max-w-3xl mx-auto text-center">
         <p className={`reveal text-xs font-bold tracking-[0.3em] uppercase mb-3 ${visible ? 'in-view' : ''}`}
           style={{ color: '#dc2626' }}>
-          El anillo de fuego comienza en
+          {t.prefix}
         </p>
         <p className={`reveal reveal-d1 text-xs tracking-widest uppercase mb-10 ${visible ? 'in-view' : ''}`}
           style={{ color: 'rgba(255,255,255,0.25)' }}>
-          6 Feb 2027 · 11:52 hs · Pueblo Carao, Esquel
+          {t.subtitle}
         </p>
 
         <div className={`grid grid-cols-4 gap-3 md:gap-6 ${visible ? 'in-view' : ''}`}>
-          <Unidad valor={tiempo.dias}     label="Días"    delay="reveal-d1" />
-          <Unidad valor={tiempo.horas}    label="Horas"   delay="reveal-d2" />
-          <Unidad valor={tiempo.minutos}  label="Min"     delay="reveal-d3" />
-          <Unidad valor={tiempo.segundos} label="Seg"     delay="reveal-d4" />
+          <Unidad valor={tiempo.dias}     label={t.days}  delay="reveal-d1" />
+          <Unidad valor={tiempo.horas}    label={t.hours} delay="reveal-d2" />
+          <Unidad valor={tiempo.minutos}  label={t.min}   delay="reveal-d3" />
+          <Unidad valor={tiempo.segundos} label={t.sec}   delay="reveal-d4" />
         </div>
       </div>
     </section>

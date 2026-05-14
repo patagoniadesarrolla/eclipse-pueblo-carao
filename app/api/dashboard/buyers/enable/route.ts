@@ -70,24 +70,30 @@ export async function POST(req: NextRequest) {
 
   if (profileError) return NextResponse.json({ error: profileError.message }, { status: 500 })
 
-  // Enviar email de bienvenida
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eclipse-pueblo-carao.vercel.app'
-  const { subject, html } = bienvenidaEmail({
-    nombre:            buyerName,
-    email:             buyerEmail,
-    password_temporal: tempPassword,
-    fecha_evento:      '6 de febrero de 2027',
-    url_app:           `${appUrl}/mi-experiencia/login`,
-  })
+  // Enviar email de bienvenida (opcional — no falla si Resend no está configurado)
+  let emailSent = false
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eclipse-pueblo-carao.vercel.app'
+      const { subject, html } = bienvenidaEmail({
+        nombre:            buyerName,
+        email:             buyerEmail,
+        password_temporal: tempPassword,
+        fecha_evento:      '6 de febrero de 2027',
+        url_app:           `${appUrl}/mi-experiencia/login`,
+      })
+      await getResend().emails.send({ from: FROM_ADDRESS, to: buyerEmail, subject, html })
+      await supabaseAdmin.from('email_logs').insert({
+        template_key:    'bienvenida',
+        recipient_email: buyerEmail,
+        subject,
+        status:          'sent',
+      })
+      emailSent = true
+    } catch {
+      // Email falla silenciosamente; la contraseña se devuelve igual
+    }
+  }
 
-  await getResend().emails.send({ from: FROM_ADDRESS, to: buyerEmail, subject, html })
-
-  await supabaseAdmin.from('email_logs').insert({
-    template_key:    'bienvenida',
-    recipient_email: buyerEmail,
-    subject,
-    status:          'sent',
-  })
-
-  return NextResponse.json({ ok: true, temp_password: tempPassword })
+  return NextResponse.json({ ok: true, temp_password: tempPassword, email_sent: emailSent })
 }

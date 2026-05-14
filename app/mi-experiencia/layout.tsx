@@ -1,11 +1,25 @@
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import StarField from '@/components/buyer/StarField'
 import BuyerNav from '@/components/buyer/BuyerNav'
 
 export const metadata = { title: 'Mi Experiencia · Eclipse Pueblo Carao' }
 
+const PUBLIC_PATHS = ['/mi-experiencia/login', '/mi-experiencia/sin-acceso']
+
 export default async function BuyerLayout({ children }: { children: React.ReactNode }) {
+  const headersList = await headers()
+  const pathname = headersList.get('x-pathname') ?? ''
+
+  if (PUBLIC_PATHS.some(p => pathname.startsWith(p))) {
+    return (
+      <div className="min-h-screen" style={{ background: '#050508', color: 'white' }}>
+        {children}
+      </div>
+    )
+  }
+
   const supabase = createServerSupabaseClient()
   const { data: { user } } = await supabase.auth.getUser()
 

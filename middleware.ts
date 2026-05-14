@@ -30,6 +30,18 @@ export async function middleware(request: NextRequest) {
   // Refresca la sesión si expiró
   const { data: { user } } = await supabase.auth.getUser()
 
+  // Protege /mi-experiencia (excepto login y sin-acceso)
+  if (
+    !user &&
+    request.nextUrl.pathname.startsWith('/mi-experiencia') &&
+    !request.nextUrl.pathname.startsWith('/mi-experiencia/login') &&
+    !request.nextUrl.pathname.startsWith('/mi-experiencia/sin-acceso')
+  ) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/mi-experiencia/login'
+    return NextResponse.redirect(url)
+  }
+
   // Protege todas las rutas del dashboard excepto /login
   if (
     !user &&

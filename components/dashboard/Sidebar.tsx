@@ -21,7 +21,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Compradores',   href: '/dashboard/buyers',   emoji: '🛒' },
   { label: 'Estadísticas',  href: '/dashboard/stats',    emoji: '📊' },
   { label: 'Emails',        href: '/dashboard/emails',   emoji: '📧' },
-  { label: 'Notificaciones', href: '#', emoji: '🔔', disabled: true },
+  { label: 'Notificaciones', href: '/dashboard/notifications', emoji: '🔔' },
   { label: 'Equipo',        href: '#', emoji: '👤', disabled: true },
 ]
 

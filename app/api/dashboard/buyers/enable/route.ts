@@ -5,8 +5,24 @@ import { getResend, FROM_ADDRESS } from '@/lib/resend'
 import { bienvenidaEmail } from '@/lib/emails/bienvenida'
 
 function generateTempPassword(): string {
-  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
-  return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+  // Incluye al menos una mayúscula, minúscula y número para cumplir políticas de Supabase
+  const upper   = 'ABCDEFGHJKMNPQRSTUVWXYZ'
+  const lower   = 'abcdefghjkmnpqrstuvwxyz'
+  const digits  = '23456789'
+  const all     = upper + lower + digits
+  // Garantizamos al menos uno de cada tipo
+  const pwd = [
+    upper[Math.floor(Math.random() * upper.length)],
+    lower[Math.floor(Math.random() * lower.length)],
+    digits[Math.floor(Math.random() * digits.length)],
+    ...Array.from({ length: 5 }, () => all[Math.floor(Math.random() * all.length)]),
+  ]
+  // Mezclar
+  for (let i = pwd.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pwd[i], pwd[j]] = [pwd[j], pwd[i]]
+  }
+  return pwd.join('')
 }
 
 export async function POST(req: NextRequest) {
@@ -25,7 +41,6 @@ export async function POST(req: NextRequest) {
 
   if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 })
 
-  // Verificar que no tenga ya un buyer_profile
   const { data: existing } = await supabaseAdmin
     .from('buyer_profiles')
     .select('id')
@@ -36,20 +51,17 @@ export async function POST(req: NextRequest) {
 
   const buyerEmail = order.buyer_email
   const buyerName  = order.buyer_name
-
-  // Crear usuario en Supabase Auth (o recuperar si ya existe)
-  let authUserId: string
   const tempPassword = generateTempPassword()
 
+  // Crear usuario o recuperar existente
+  let authUserId: string
   const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
     email: buyerEmail,
-    password: tempPassword,
     email_confirm: true,
     user_metadata: { name: buyerName },
   })
 
   if (authError) {
-    // Si el usuario ya existe, buscarlo por email
     const { data: listData } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 })
     const found = listData?.users.find(u => u.email?.toLowerCase() === buyerEmail.toLowerCase())
     if (!found) return NextResponse.json({ error: authError.message }, { status: 500 })
@@ -58,12 +70,19 @@ export async function POST(req: NextRequest) {
     authUserId = authData.user.id
   }
 
-  // Siempre forzar la contraseña con updateUserById — createUser no la sincroniza
-  // de forma confiable con signInWithPassword en todas las versiones de Supabase
-  await supabaseAdmin.auth.admin.updateUserById(authUserId, {
+  // Setear contraseña explícitamente (separado de createUser para máxima confiabilidad)
+  const { error: pwdError } = await supabaseAdmin.auth.admin.updateUserById(authUserId, {
     password: tempPassword,
     email_confirm: true,
   })
+
+  if (pwdError) {
+    return NextResponse.json({ error: `No se pudo setear contraseña: ${pwdError.message}` }, { status: 500 })
+  }
+
+  // Verificar estado del usuario creado
+  const { data: verifyData } = await supabaseAdmin.auth.admin.getUserById(authUserId)
+  const authUser = verifyData?.user
 
   // Crear buyer_profile
   const { error: profileError } = await supabaseAdmin.from('buyer_profiles').insert({
@@ -75,17 +94,17 @@ export async function POST(req: NextRequest) {
 
   if (profileError) return NextResponse.json({ error: profileError.message }, { status: 500 })
 
-  // Enviar email de bienvenida (opcional — no falla si Resend no está configurado)
+  // Email de bienvenida (opcional)
   let emailSent = false
   if (process.env.RESEND_API_KEY) {
     try {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eclipse-pueblo-carao.vercel.app'
+      const origin = req.headers.get('origin') ?? req.nextUrl.origin
       const { subject, html } = bienvenidaEmail({
         nombre:            buyerName,
         email:             buyerEmail,
         password_temporal: tempPassword,
         fecha_evento:      '6 de febrero de 2027',
-        url_app:           `${appUrl}/mi-experiencia/login`,
+        url_app:           `${origin}/mi-experiencia/login`,
       })
       await getResend().emails.send({ from: FROM_ADDRESS, to: buyerEmail, subject, html })
       await supabaseAdmin.from('email_logs').insert({
@@ -95,10 +114,17 @@ export async function POST(req: NextRequest) {
         status:          'sent',
       })
       emailSent = true
-    } catch {
-      // Email falla silenciosamente; la contraseña se devuelve igual
-    }
+    } catch { /* silencioso */ }
   }
 
-  return NextResponse.json({ ok: true, temp_password: tempPassword, email_sent: emailSent })
+  return NextResponse.json({
+    ok: true,
+    temp_password: tempPassword,
+    email_sent: emailSent,
+    debug: {
+      user_id: authUserId,
+      email_confirmed: !!authUser?.email_confirmed_at,
+      confirmed_at: authUser?.email_confirmed_at ?? null,
+    },
+  })
 }

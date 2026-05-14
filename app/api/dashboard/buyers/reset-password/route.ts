@@ -3,8 +3,21 @@ import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
 function generateTempPassword(): string {
-  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
-  return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+  const upper  = 'ABCDEFGHJKMNPQRSTUVWXYZ'
+  const lower  = 'abcdefghjkmnpqrstuvwxyz'
+  const digits = '23456789'
+  const all    = upper + lower + digits
+  const pwd = [
+    upper[Math.floor(Math.random() * upper.length)],
+    lower[Math.floor(Math.random() * lower.length)],
+    digits[Math.floor(Math.random() * digits.length)],
+    ...Array.from({ length: 5 }, () => all[Math.floor(Math.random() * all.length)]),
+  ]
+  for (let i = pwd.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pwd[i], pwd[j]] = [pwd[j], pwd[i]]
+  }
+  return pwd.join('')
 }
 
 export async function POST(req: NextRequest) {
@@ -32,19 +45,26 @@ export async function POST(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Generar magic link para acceso directo sin contraseña
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eclipse-pueblo-carao.vercel.app'
-  const { data: linkData } = await supabaseAdmin.auth.admin.generateLink({
+  // Magic link con el origin real del request (no env var que puede ser localhost)
+  const origin = req.headers.get('origin') ?? req.nextUrl.origin
+  const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
     type: 'magiclink',
     email: profile.email,
-    options: { redirectTo: `${appUrl}/mi-experiencia` },
+    options: { redirectTo: `${origin}/mi-experiencia` },
   })
+
+  // Verificar estado del usuario para diagnóstico
+  const { data: userData } = await supabaseAdmin.auth.admin.getUserById(profile.user_id)
 
   return NextResponse.json({
     ok: true,
     temp_password: newPassword,
     email: profile.email,
     name: profile.name,
-    magic_link: linkData?.properties?.action_link ?? null,
+    magic_link: linkError ? null : (linkData?.properties?.action_link ?? null),
+    debug: {
+      email_confirmed: !!userData?.user?.email_confirmed_at,
+      link_error: linkError?.message ?? null,
+    },
   })
 }

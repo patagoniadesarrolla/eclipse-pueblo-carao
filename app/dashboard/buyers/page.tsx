@@ -21,6 +21,7 @@ interface CredentialToast {
   emailSent: boolean
   label: string
   magicLink?: string | null
+  debug?: { email_confirmed: boolean; link_error?: string | null } | null
 }
 
 function statusBadge(status: string) {
@@ -68,7 +69,7 @@ export default function BuyersPage() {
     })
     const data = await res.json()
     if (res.ok) {
-      showToast({ name: order.buyer_name, email: order.buyer_email, pwd: data.temp_password, emailSent: data.email_sent, label: 'Acceso habilitado' })
+      showToast({ name: order.buyer_name, email: order.buyer_email, pwd: data.temp_password, emailSent: data.email_sent, label: 'Acceso habilitado', debug: data.debug })
       fetchOrders()
     } else {
       alert(data.error ?? 'Error al habilitar acceso')
@@ -85,7 +86,7 @@ export default function BuyersPage() {
     })
     const data = await res.json()
     if (res.ok) {
-      showToast({ name: data.name, email: data.email, pwd: data.temp_password, emailSent: false, label: 'Contraseña restablecida', magicLink: data.magic_link })
+      showToast({ name: data.name, email: data.email, pwd: data.temp_password, emailSent: false, label: 'Contraseña restablecida', magicLink: data.magic_link, debug: data.debug })
     } else {
       alert(data.error ?? 'Error al resetear contraseña')
     }
@@ -164,6 +165,11 @@ export default function BuyersPage() {
                   ? <span className="text-xs text-emerald-500">✓ Email enviado</span>
                   : <span className="text-xs text-gray-600">Sin email (Resend no configurado)</span>
                 }
+                {toast.debug && (
+                  <span className={`text-xs ${toast.debug.email_confirmed ? 'text-emerald-500' : 'text-red-400'}`}>
+                    {toast.debug.email_confirmed ? '✓ Email confirmado en Auth' : '✗ Email NO confirmado — esto bloquea el login'}
+                  </span>
+                )}
               </div>
             </div>
             <button onClick={() => setToast(null)} className="text-gray-500 hover:text-white text-xl leading-none flex-shrink-0">×</button>

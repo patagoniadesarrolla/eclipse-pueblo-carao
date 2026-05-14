@@ -27,9 +27,24 @@ export async function POST(req: NextRequest) {
 
   const { error } = await supabaseAdmin.auth.admin.updateUserById(profile.user_id, {
     password: newPassword,
+    email_confirm: true,
   })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  return NextResponse.json({ ok: true, temp_password: newPassword, email: profile.email, name: profile.name })
+  // Generar magic link para acceso directo sin contraseña
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eclipse-pueblo-carao.vercel.app'
+  const { data: linkData } = await supabaseAdmin.auth.admin.generateLink({
+    type: 'magiclink',
+    email: profile.email,
+    options: { redirectTo: `${appUrl}/mi-experiencia` },
+  })
+
+  return NextResponse.json({
+    ok: true,
+    temp_password: newPassword,
+    email: profile.email,
+    name: profile.name,
+    magic_link: linkData?.properties?.action_link ?? null,
+  })
 }

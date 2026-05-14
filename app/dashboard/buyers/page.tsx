@@ -20,6 +20,7 @@ interface CredentialToast {
   pwd: string
   emailSent: boolean
   label: string
+  magicLink?: string | null
 }
 
 function statusBadge(status: string) {
@@ -84,7 +85,7 @@ export default function BuyersPage() {
     })
     const data = await res.json()
     if (res.ok) {
-      showToast({ name: data.name, email: data.email, pwd: data.temp_password, emailSent: false, label: 'Contraseña restablecida' })
+      showToast({ name: data.name, email: data.email, pwd: data.temp_password, emailSent: false, label: 'Contraseña restablecida', magicLink: data.magic_link })
     } else {
       alert(data.error ?? 'Error al resetear contraseña')
     }
@@ -142,16 +143,26 @@ export default function BuyersPage() {
                   <span className="text-yellow-300 font-bold tracking-wider">{toast.pwd}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3 mt-2">
+              <div className="flex items-center gap-3 mt-2 flex-wrap">
                 <button
                   onClick={copyCredentials}
                   className="text-xs px-3 py-1.5 rounded-lg bg-violet-600/20 hover:bg-violet-600/40 text-violet-400 border border-violet-500/30 transition-colors"
                 >
                   {copied ? '¡Copiado!' : 'Copiar credenciales'}
                 </button>
+                {toast.magicLink && (
+                  <a
+                    href={toast.magicLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-400 border border-emerald-500/30 transition-colors"
+                  >
+                    Entrar como este usuario →
+                  </a>
+                )}
                 {toast.emailSent
-                  ? <span className="text-xs text-emerald-500">✓ Email enviado automáticamente</span>
-                  : <span className="text-xs text-gray-600">Email no enviado (Resend no configurado)</span>
+                  ? <span className="text-xs text-emerald-500">✓ Email enviado</span>
+                  : <span className="text-xs text-gray-600">Sin email (Resend no configurado)</span>
                 }
               </div>
             </div>

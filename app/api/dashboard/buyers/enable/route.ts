@@ -49,16 +49,21 @@ export async function POST(req: NextRequest) {
   })
 
   if (authError) {
-    // Si el usuario ya existe, buscar su ID
-    const { data: { users } } = await supabaseAdmin.auth.admin.listUsers()
-    const found = users.find(u => u.email === buyerEmail)
+    // Si el usuario ya existe, buscarlo por email
+    const { data: listData } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 })
+    const found = listData?.users.find(u => u.email?.toLowerCase() === buyerEmail.toLowerCase())
     if (!found) return NextResponse.json({ error: authError.message }, { status: 500 })
     authUserId = found.id
-    // Actualizar contraseña
-    await supabaseAdmin.auth.admin.updateUserById(authUserId, { password: tempPassword })
   } else {
     authUserId = authData.user.id
   }
+
+  // Siempre forzar la contraseña con updateUserById — createUser no la sincroniza
+  // de forma confiable con signInWithPassword en todas las versiones de Supabase
+  await supabaseAdmin.auth.admin.updateUserById(authUserId, {
+    password: tempPassword,
+    email_confirm: true,
+  })
 
   // Crear buyer_profile
   const { error: profileError } = await supabaseAdmin.from('buyer_profiles').insert({

@@ -74,6 +74,19 @@ export default function BuyersPage() {
     setWorking(null)
   }
 
+  const handleDelete = async (order: OrderRow) => {
+    if (!confirm(`¿Eliminar completamente a ${order.buyer_name}?\nSe borrará la orden, el acceso y el usuario. El lead vuelve a "Contactado".`)) return
+    setWorking(order.id)
+    const res = await fetch(`/api/dashboard/buyers/${order.id}`, { method: 'DELETE' })
+    const data = await res.json()
+    if (res.ok) {
+      fetchOrders()
+    } else {
+      alert(data.error ?? 'Error al eliminar')
+    }
+    setWorking(null)
+  }
+
   const activeCount = orders.filter(o => o.buyer_profiles && o.buyer_profiles.length > 0).length
 
   return (
@@ -148,7 +161,7 @@ export default function BuyersPage() {
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap">
                       {!hasAccess && order.payment_status !== 'refunded' && (
                         <button
                           onClick={() => handleEnable(order)}
@@ -162,11 +175,18 @@ export default function BuyersPage() {
                         <button
                           onClick={() => handleRevoke(order)}
                           disabled={isWorking}
-                          className="text-xs px-3 py-1.5 rounded-lg bg-red-600/10 hover:bg-red-600/25 text-red-400 border border-red-500/25 transition-colors disabled:opacity-40"
+                          className="text-xs px-3 py-1.5 rounded-lg bg-orange-600/10 hover:bg-orange-600/25 text-orange-400 border border-orange-500/25 transition-colors disabled:opacity-40"
                         >
                           {isWorking ? '…' : 'Revertir acceso'}
                         </button>
                       )}
+                      <button
+                        onClick={() => handleDelete(order)}
+                        disabled={isWorking}
+                        className="text-xs px-3 py-1.5 rounded-lg bg-red-600/10 hover:bg-red-600/25 text-red-400 border border-red-500/25 transition-colors disabled:opacity-40"
+                      >
+                        {isWorking ? '…' : 'Eliminar'}
+                      </button>
                     </div>
                   </td>
                 </tr>

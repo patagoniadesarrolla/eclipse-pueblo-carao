@@ -107,6 +107,7 @@ function LeadDetail({ lead, onClose, onRefresh }: {
   const [notes, setNotes]       = useState(lead.notes ?? '')
   const [history, setHistory]   = useState<LeadStatusHistory[]>([])
   const [saving, setSaving]     = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const saveTimer               = useRef<ReturnType<typeof setTimeout> | null>(null)
   const supabase                = createClient()
 
@@ -145,10 +146,25 @@ function LeadDetail({ lead, onClose, onRefresh }: {
             <h2 className="text-white font-semibold text-lg leading-tight">{lead.name}</h2>
             <p className="text-gray-500 text-sm mt-0.5">{lead.email}</p>
           </div>
-          <button onClick={onClose}
-            className="text-gray-500 hover:text-white text-2xl leading-none ml-4 mt-0.5 transition-colors">
-            ×
-          </button>
+          <div className="flex items-center gap-2 ml-4 mt-0.5">
+            <button
+              onClick={async () => {
+                if (!confirm(`¿Eliminar el lead "${lead.name}"? Esta acción no se puede deshacer.`)) return
+                setDeleting(true)
+                const res = await fetch(`/api/leads/${lead.id}`, { method: 'DELETE' })
+                if (res.ok) { onClose(); onRefresh() }
+                else { alert('Error al eliminar'); setDeleting(false) }
+              }}
+              disabled={deleting}
+              className="text-xs px-2.5 py-1.5 rounded-lg bg-red-600/10 hover:bg-red-600/25 text-red-400 border border-red-500/25 transition-colors disabled:opacity-40"
+            >
+              {deleting ? '…' : 'Eliminar'}
+            </button>
+            <button onClick={onClose}
+              className="text-gray-500 hover:text-white text-2xl leading-none transition-colors">
+              ×
+            </button>
+          </div>
         </div>
 
         <div className="flex-1 p-5 space-y-6">
